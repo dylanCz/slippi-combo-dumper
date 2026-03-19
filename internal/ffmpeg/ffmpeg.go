@@ -1,4 +1,3 @@
-// internal/ffmpeg/ffmpeg.go
 package ffmpeg
 
 import (
