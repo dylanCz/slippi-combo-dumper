@@ -15,21 +15,21 @@ var qualityPresets = map[string]QualitySettings{
 }
 
 var encoderPresets = map[string]EncoderPresets{
-	"Slower": {".webm", "libvpx-vp9"},
-	"Faster": {".mp4", "libx264"},
+	"webm": {".webm", "libvpx-vp9"},
+	"mp4":  {".mp4", "libx264"},
 }
 
-func Encode(videoDump, audioDump, output, chosenQuality, chosenCodec string) error {
-	preset, ok := qualityPresets[chosenQuality]
+func Encode(videoDump, audioDump, output, quality, codec string, discord bool) error {
+	preset, ok := qualityPresets[quality]
 	if !ok {
-		return fmt.Errorf("invalid quality: %s", chosenQuality)
+		return fmt.Errorf("invalid quality: %s", quality)
 	}
-	encoder, ok := encoderPresets[chosenCodec]
+	encoder, ok := encoderPresets[codec]
 	if !ok {
-		return fmt.Errorf("invalid codec: %s", chosenCodec)
+		return fmt.Errorf("invalid codec: %s", codec)
 	}
 
-	args := buildArgs(preset, encoder, videoDump, audioDump, output, chosenQuality)
+	args := buildArgs(preset, encoder, videoDump, audioDump, output, quality)
 	return ffmpeg.Run(args...)
 }
 
