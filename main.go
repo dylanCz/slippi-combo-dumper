@@ -9,7 +9,7 @@ import (
 	"github.com/dylanCz/slippi-combo-dumper/internal/encoder"
 )
 
-func setConfig() config.Config {
+func setConfig() config.FfmpegConfig {
 	vPath := flag.String("videoPath", "resources/framedump0.avi", "The path to your frame dumped video")
 	aPath := flag.String("audioPath", "resources/dspdump.wav", "The path to your frame dumped audio")
 	quality := flag.String("quality", "Best", "The quality of the final clip, choices are Lossless, Best, Good, Average and Low")
@@ -19,13 +19,11 @@ func setConfig() config.Config {
 
 	flag.Parse()
 
-	return config.Config{VideoPath: *vPath, AudioPath: *aPath, Quality: *quality, Codec: *codec, Output: *output, Discord: *discord}
+	return config.FfmpegConfig{VideoPath: *vPath, AudioPath: *aPath, Quality: *quality, Codec: *codec, Output: *output, Discord: *discord}
 }
 
 func main() {
-	config := setConfig()
-
-	if err := encoder.Encode(config); err != nil {
+	if err := encoder.Encode(setConfig()); err != nil {
 		log.Fatalf("ffmpeg failed: %v", err)
 	}
 	fmt.Println("Done!")

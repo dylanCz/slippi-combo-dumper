@@ -20,7 +20,7 @@ var encoderPresets = map[string]EncoderPresets{
 	"mp4":  {Filetype: ".mp4", Encoder: "libx264"},
 }
 
-func Encode(config config.Config) error {
+func Encode(config config.FfmpegConfig) error {
 	preset, ok := qualityPresets[config.Quality]
 	if !ok {
 		return fmt.Errorf("invalid quality: %s", config.Quality)
@@ -34,7 +34,7 @@ func Encode(config config.Config) error {
 	return ffmpeg.Run(args...)
 }
 
-func buildArgs(preset QualitySettings, encoder EncoderPresets, config config.Config) []string {
+func buildArgs(preset QualitySettings, encoder EncoderPresets, config config.FfmpegConfig) []string {
 	args := []string{
 		"-i", config.VideoPath,
 		"-i", config.AudioPath,

@@ -1,6 +1,6 @@
 package config
 
-type Config struct {
+type FfmpegConfig struct {
 	VideoPath string
 	AudioPath string
 	Quality   string
